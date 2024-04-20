@@ -1,7 +1,7 @@
 text = open('input.txt').read()
 
 coords = [0, 0]
-visited = set([f'{coords[0]}, {coords[1]}'])
+visited = set(['0, 0'])
 
 for c in text:
     match c:
