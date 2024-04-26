@@ -1,21 +1,24 @@
+from sys import maxsize
+from itertools import permutations 
+
 text = open('input.txt').read().strip().split('\n')
-text = open('test_input.txt').read().strip().split('\n')
+# text = open('test_input.txt').read().strip().split('\n')
 
-routes = {}
+places = set()
+routes = dict()
 for line in text:
-    line = line.split()
-    try:
-        routes[line[0]].append([ line[2], int(line[4]) ])
-    except:
-        routes[line[0]] = [[ line[2], int(line[4]) ]]
-    try:
-        routes[line[2]].append([ line[0], int(line[4]) ])
-    except:
-        routes[line[2]] = [[ line[0], int(line[4]) ]]
+    (start, _, end, _, distance) = line.split()
+    places.add(start)
+    places.add(end)
+    routes.setdefault(start, dict())[end] = int(distance)
+    routes.setdefault(end, dict())[start] = int(distance)
 
-''' {
-    'London': [['Dublin', 464], ['Belfast', 518]],
-    'Dublin': [['London', 464], ['Belfast', 141]],
-    'Belfast': [['London', 518], ['Dublin', 141]]
-} '''
+length = maxsize
+for path in permutations(places):
+    sum = 0
+    for i in range(len(path) - 1):
+        sum += routes[path[i]][path[i+1]]
+    if sum < length:
+        length = sum
 
+print(length)
