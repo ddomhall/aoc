@@ -28,14 +28,13 @@ combination 0 * inp 0 texture + combination 1 * inp 1 texture
 def positive(x):
     return 0 if x < 0 else x
 
+combinations = [[44 ,56]]
 highest = 0
 for combination in combinations:
-    capacity = combination[0] * positive(input[0][0]) + combination[1] * positive(input[1][0])
-    durability = combination[0] * positive(input[0][1]) + combination[1] * positive(input[1][1])
-    flavor = combination[0] * positive(input[0][2]) + combination[1] * positive(input[1][2])
-    texture = combination[0] * positive(input[0][3]) + combination[1] * positive(input[1][3])
-    print(combination, capacity, durability, flavor, texture)
-    #NOTE: ^ numbers are roughly doubled ^
+    capacity = positive(combination[0] * input[0][0] + combination[1] * input[1][0])
+    durability = positive(combination[0] * input[0][1] + combination[1] * input[1][1])
+    flavor = positive(combination[0] * input[0][2] + combination[1] * input[1][2])
+    texture = positive(combination[0] * input[0][3] + combination[1] * input[1][3])
     total = capacity * durability * flavor * texture
     if total > highest: highest = total
 
