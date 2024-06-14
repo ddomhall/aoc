@@ -6,66 +6,68 @@ public class Day1
         public static int y { get; set; }
     }
 
-    static string input = File.ReadAllText("./01/input.txt");
-    static string[] directions = input.Split(", ");
+    static string[] directions = File.ReadAllText("./01/input.txt").Split(", ");
     static char facing = 'N';
 
-    public static void Part1()
+    public static int Part1()
     {
         foreach (string direction in directions)
         {
-            int distance = int.Parse(direction.Substring(1));
             facing = newDirection(direction[0]);
+            updateCoords(facing, int.Parse(direction.Substring(1)));
+        }
+        return coordinates.x + coordinates.y;
+    }
+
+    static void updateCoords(char direction, int distance)
+    {
+        switch (direction)
+        {
+            case 'N':
+                coordinates.y += distance;
+                break;
+            case 'E':
+                coordinates.x += distance;
+                break;
+            case 'S':
+                coordinates.y -= distance;
+                break;
+            case 'W':
+                coordinates.x -= distance;
+                break;
+        }
+    }
+
+    static char newDirection(char turn)
+    {
+        if (turn == 'R')
+        {
             switch (facing)
             {
                 case 'N':
-                    coordinates.y += distance;
-                    break;
+                    return 'E';
                 case 'E':
-                    coordinates.x += distance;
-                    break;
+                    return 'S';
                 case 'S':
-                    coordinates.y -= distance;
-                    break;
+                    return 'W';
                 case 'W':
-                    coordinates.x -= distance;
-                    break;
+                    return 'N';
             }
         }
-
-        static char newDirection(char turn)
+        else
         {
-            if (turn == 'R')
+            switch (facing)
             {
-                switch (facing)
-                {
-                    case 'N':
-                        return 'E';
-                    case 'E':
-                        return 'S';
-                    case 'S':
-                        return 'W';
-                    case 'W':
-                        return 'N';
-                }
+                case 'N':
+                    return 'W';
+                case 'E':
+                    return 'N';
+                case 'S':
+                    return 'E';
+                case 'W':
+                    return 'S';
             }
-            else
-            {
-                switch (facing)
-                {
-                    case 'N':
-                        return 'W';
-                    case 'E':
-                        return 'N';
-                    case 'S':
-                        return 'E';
-                    case 'W':
-                        return 'S';
-                }
-            }
-            return 'x';
         }
-
-        Console.WriteLine(coordinates.x + coordinates.y);
+        return 'x';
     }
 }
