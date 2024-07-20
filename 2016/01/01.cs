@@ -1,6 +1,6 @@
 public class Day1
 {
-    struct coordinates
+    class Coordinates
     {
         public static int x { get; set; }
         public static int y { get; set; }
@@ -9,14 +9,14 @@ public class Day1
     static string[] directions = File.ReadAllText("./01/input.txt").Split(", ");
     static char facing = 'N';
 
-    public static int Part1()
+    public static void Part1()
     {
         foreach (string direction in directions)
         {
             facing = newDirection(direction[0]);
             updateCoords(facing, int.Parse(direction.Substring(1)));
         }
-        return coordinates.x + coordinates.y;
+        Console.WriteLine($"1.1: {Coordinates.x + Coordinates.y}");
     }
 
     static void updateCoords(char direction, int distance)
@@ -24,16 +24,16 @@ public class Day1
         switch (direction)
         {
             case 'N':
-                coordinates.y += distance;
+                Coordinates.y += distance;
                 break;
             case 'E':
-                coordinates.x += distance;
+                Coordinates.x += distance;
                 break;
             case 'S':
-                coordinates.y -= distance;
+                Coordinates.y -= distance;
                 break;
             case 'W':
-                coordinates.x -= distance;
+                Coordinates.x -= distance;
                 break;
         }
     }
@@ -69,5 +69,21 @@ public class Day1
             }
         }
         return 'x';
+    }
+
+    public static void Part2()
+    {
+        List<int[]> visited = new List<int[]>();
+        foreach (string direction in directions)
+        {
+            facing = newDirection(direction[0]);
+            int distance = int.Parse(direction.Substring(1));
+            for (int i = 0; i < distance; i++)
+            {
+                updateCoords(facing, 1);
+                int[] current = { Coordinates.x, Coordinates.y };
+                visited.Add(current);
+            }
+        }
     }
 }
