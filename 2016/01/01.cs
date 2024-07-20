@@ -77,12 +77,18 @@ public class Day1
         foreach (string direction in directions)
         {
             facing = newDirection(direction[0]);
-            int distance = int.Parse(direction.Substring(1));
-            for (int i = 0; i < distance; i++)
+            for (int i = 0; i < int.Parse(direction.Substring(1)); i++)
             {
                 updateCoords(facing, 1);
-                int[] current = { Coordinates.x, Coordinates.y };
-                visited.Add(current);
+                foreach (int[] visit in visited)
+                {
+                    if (Coordinates.x == visit[0] && Coordinates.y == visit[1])
+                    {
+                        Console.WriteLine($"1.2: {Coordinates.x + Coordinates.y}");
+                        return;
+                    }
+                }
+                visited.Add(new int[] { Coordinates.x, Coordinates.y });
             }
         }
     }
